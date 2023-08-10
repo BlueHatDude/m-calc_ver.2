@@ -393,9 +393,7 @@ double MC2_evaluate(const char* equation) {
 
 	if( checkEqu(equation) ) {
 		MC2_read_equ(equation, tokens);
-		// DEBUGGING_getEquTknValues(tokens, ARR_SIZE(tokens));
 		MC2_read_opsNPars(tokens, ops_n_pars);
-		// MLOG_log_matrix("Operators and Parenthesis", ops_n_pars, "%d", 5, 6);
 	
 		// parenthesis
 		for(unsigned i = 0; i <= (unsigned)ops_n_pars[0][0]; ++i) {
