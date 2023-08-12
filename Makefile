@@ -1,5 +1,7 @@
+CC=gcc
+
 app: mcalc2.o
-	cc -o mcalc2 mcalc2.o main.c
+	$(CC) -o mcalc2 mcalc2.o main.c
 	rm *.o
 
 mcalc2.o:
