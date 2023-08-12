@@ -184,7 +184,7 @@ void MC2_read_equ(const char* equ, struct MC2_EquationToken tokens[]) {
 
 
 /// @brief reads in operators and parenthesis for order of operations
-/// @param tokens tokens after they have been writtent to read_equ()
+/// @param tokens after they have been written to by read_equ()
 /// @param opsNPars
 ///			(0) POINTERS : { 0, 0, 0, 0, 0 },
 ///				0: LEFT AND RIGHT PARENTEHSIS
