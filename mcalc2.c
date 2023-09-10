@@ -1,5 +1,8 @@
 #include "mlogging.h"
 #include "arrfuncs.h"
+#include "mcalc2.h"
+
+#include <stdint.h>
 
 
 enum MC2_EquTknType {
@@ -20,8 +23,8 @@ struct MC2_EquationToken {
 	enum MC2_EquTknType type;
 
 	union {
-		double fvalue;
-		long  ivalue;
+		float64_t fvalue;
+		int64_t  ivalue;
 	};
 };
 
