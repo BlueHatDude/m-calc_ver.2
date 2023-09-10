@@ -183,20 +183,25 @@ void MC2_read_equ(const char* equ, struct MC2_EquationToken tokens[]) {
 }
 
 
+enum OpsNParsType {
+	INDEX_TRACKERS = 0,
+	LEFT_PAR    = 1,
+	RIGHT_PAR   = 2,
+	EXPONENT    = 3,
+	MULT_N_DIV  = 4,
+	ADD_N_SUB   = 5,
+};
+
+
+enum IndexTrackerType {
+	PARENTHESIS_INDEX = 0,
+	EXPONENT_INDEX    = 1,
+	MULT_N_DIV_INDEX  = 2,
+	ADD_N_SUB_INDEX   = 3,
+};
+
+
 /// @brief reads in operators and parenthesis for order of operations
-/// @param tokens after they have been written to by read_equ()
-/// @param opsNPars
-///			(0) POINTERS : { 0, 0, 0, 0, 0 },
-///				0: LEFT AND RIGHT PARENTEHSIS
-///				1: EXPONENT
-///				2: MULTIPLICATION AND DIVISION
-///				3: ADDITION AND SUBTRACTION
-///			                      0  1  2  3  4
-///			(1) LEFT-PAR    :   { 0, 0, 0, 0, 0 },
-///			(2) RIGHT-PAR   :   { 0, 0, 0, 0, 0 },
-///			(3) EXPONENT    :   { 0, 0, 0, 0, 0 },
-///			(4) MULT&DIV-OP :   { 0, 0, 0, 0, 0 },
-///			(5) ADD&SUB-OP  :   { 0, 0, 0, 0, 0 },
 void MC2_read_opsNPars(struct MC2_EquationToken tokens[], short opsNPars[6][5]) {	
 	unsigned len = 0;
 	while(tokens[len].type != EMPTY) len++;
@@ -205,20 +210,20 @@ void MC2_read_opsNPars(struct MC2_EquationToken tokens[], short opsNPars[6][5]) 
 		if(tokens[i].type == L_PAR) {
 			unsigned temp = i;
 			while(tokens[temp].type != R_PAR) temp++;
-			opsNPars[1][ opsNPars[0][0] ] = i;
-			opsNPars[2][ opsNPars[0][0] ] = temp;
+			opsNPars[LEFT_PAR][ opsNPars[INDEX_TRACKERS][PARENTHESIS_INDEX] ] = i;
+			opsNPars[RIGHT_PAR][ opsNPars[INDEX_TRACKERS][PARENTHESIS_INDEX] ] = temp;
 			tokens[i].type = EMPTY;
 			tokens[temp].type = EMPTY;
-			opsNPars[0][0]++;
+			opsNPars[INDEX_TRACKERS][0]++;
 		} else if(tokens[i].type == OP_EXPONENT) {
-			opsNPars[3][ opsNPars[0][1] ] = i;
-			opsNPars[0][1]++;
+			opsNPars[EXPONENT][ opsNPars[INDEX_TRACKERS][EXPONENT_INDEX] ] = i;
+			opsNPars[INDEX_TRACKERS][EXPONENT_INDEX]++;
 		} else if(tokens[i].type == OP_MULTIPLIY || tokens[i].type == OP_DIVIDE) {
-			opsNPars[4][ opsNPars[0][2] ] = i;
-			opsNPars[0][2]++;
+			opsNPars[MULT_N_DIV][ opsNPars[INDEX_TRACKERS][MULT_N_DIV_INDEX] ] = i;
+			opsNPars[INDEX_TRACKERS][MULT_N_DIV_INDEX]++;
 		} else if(tokens[i].type == OP_PLUS || tokens[i].type == OP_MINUS) {
-			opsNPars[5][ opsNPars[0][3] ] = i;
-			opsNPars[0][3]++;
+			opsNPars[ADD_N_SUB][ opsNPars[INDEX_TRACKERS][ADD_N_SUB_INDEX] ] = i;
+			opsNPars[INDEX_TRACKERS][ADD_N_SUB_INDEX]++;
 		}
 	}
 
