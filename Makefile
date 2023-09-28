@@ -7,3 +7,5 @@ app: mcalc2.o
 mcalc2.o:
 	cc -c mcalc2.c -Wall -Werror -Wextra -pedantic
 
+
+object: mcalc2.o
