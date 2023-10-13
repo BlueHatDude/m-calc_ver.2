@@ -3,13 +3,15 @@
 #include "mcalc2.h"
 
 
+#include "mlogging.h"
 int main(int argc, char* argv[]) {
-    char equation[50];
+  if(argc == 1)
+    puts("Please input an expression in the form 'mcalc2 {expression}'");
+    
 
-    for(unsigned i = 1; i < argc; ++i) {
-        strcat(equation, argv[i]);
-    }
+  for(unsigned i = 1; i < (unsigned) argc; ++i) {
+      printf("%.4lf \n", MC2_evaluate(argv[i]));
+  }
 
-    printf("%lf \n", MC2_evaluate(equation));
 }
 
