@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
     
 
   for(unsigned i = 1; i < (unsigned) argc; ++i) {
-      printf("%s: %.4lf \n", argv[i], MC2_evaluate(argv[i]));
+      printf(" %s: %.4lf \n", argv[i], MC2_evaluate(argv[i]));
   }
 
 }
