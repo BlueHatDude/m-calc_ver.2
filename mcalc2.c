@@ -260,10 +260,14 @@ void MC2_subEvaluateOp(enum OpNumPermutations order, struct MC2_EquationToken to
           tokens[before].type = EMPTY; tokens[after].type = EMPTY;
           break;
         case OP_DIVIDE:
-          tokens[index].fvalue = (float64_t)(tokens[before].ivalue) / (float64_t) tokens[after].ivalue;						
-          tokens[index].type = DECIMAL; // output may be decimal
-          tokens[before].type = EMPTY; tokens[after].type = EMPTY;
-          return;
+          if(tokens[after].ivalue != 0) {
+            tokens[index].fvalue = (float64_t)(tokens[before].ivalue) / (float64_t)(tokens[after].ivalue);						
+            tokens[index].type = DECIMAL; // output may be decimal
+            tokens[before].type = EMPTY; tokens[after].type = EMPTY;
+          } else {
+            MLOG_error("mcalc2.c:MC2_subEvaluateOP::Unable to divide by zero");
+            return;
+          }
           break;
         case OP_EXPONENT:
           tokens[index].ivalue = MC2_pow(tokens[before].ivalue, tokens[after].ivalue);
@@ -288,8 +292,12 @@ void MC2_subEvaluateOp(enum OpNumPermutations order, struct MC2_EquationToken to
           tokens[before].type = EMPTY; tokens[after].type = EMPTY;
           break;
         case OP_DIVIDE:
-          tokens[index].fvalue = tokens[before].ivalue / tokens[after].fvalue;
-          tokens[before].type = EMPTY; tokens[after].type = EMPTY;
+          if(tokens[after].fvalue != 0.0) {
+            tokens[index].fvalue = tokens[before].ivalue / tokens[after].fvalue;
+            tokens[before].type = EMPTY; tokens[after].type = EMPTY;
+          } else {
+            MLOG_error("mcalc2.c:MC2_subEvaluateOP::Unable to divide by zero");
+          }
           break;
         case OP_EXPONENT:
           tokens[index].ivalue = MC2_pow(tokens[before].ivalue, tokens[after].fvalue);
@@ -314,8 +322,12 @@ void MC2_subEvaluateOp(enum OpNumPermutations order, struct MC2_EquationToken to
           tokens[before].type = EMPTY; tokens[after].type = EMPTY;
           break;
         case OP_DIVIDE:
-          tokens[index].fvalue = tokens[before].fvalue / tokens[after].ivalue;
-          tokens[before].type = EMPTY; tokens[after].type = EMPTY;
+          if(tokens[after].ivalue != 0) {
+            tokens[index].fvalue = tokens[before].fvalue / tokens[after].ivalue;
+            tokens[before].type = EMPTY; tokens[after].type = EMPTY;
+          } else {
+            MLOG_error("mcalc2.c:MC2_subEvaluateOP::Unable to divide by zero");
+          }
           break;
         case OP_EXPONENT:
           tokens[index].ivalue = MC2_pow(tokens[before].fvalue, tokens[after].ivalue);
@@ -340,8 +352,12 @@ void MC2_subEvaluateOp(enum OpNumPermutations order, struct MC2_EquationToken to
           tokens[before].type = EMPTY; tokens[after].type = EMPTY;
           break;
         case OP_DIVIDE:
-          tokens[index].fvalue = tokens[before].fvalue + tokens[after].fvalue;
-          tokens[before].type = EMPTY; tokens[after].type = EMPTY;
+          if(tokens[after].fvalue != 0.0) {
+            tokens[index].fvalue = tokens[before].fvalue + tokens[after].fvalue;
+            tokens[before].type = EMPTY; tokens[after].type = EMPTY;
+          } else {
+            MLOG_error("mcalc2.c:MC2_subEvaluateOP::Unable to divide by zero");
+          }
           break;
         case OP_EXPONENT:
           tokens[index].ivalue = MC2_pow(tokens[before].fvalue, tokens[after].fvalue);
